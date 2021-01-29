@@ -1,0 +1,73 @@
+{
+  "pluginName": "编程小助手",
+  "description": "解决自己在写代码时遇到的一些小问题。",
+  "logo": "img/logo.jpg",
+  "preload": "preload.js",
+  "version": "0.0.2",
+  "author": "小金鱼",
+  "homepage": "https://github.com/ljynfo/utools-code-helper",
+  "platform": ["win32", "darwin", "linux"],
+  "features": [
+    {
+      "code": "code_helper",
+      "explain": "编程小助手",
+      "cmds": [
+        "code",
+        "helper",
+        "编程",
+        "助手"
+      ]
+    },
+    {
+      "code": "remove_esc",
+      "explain": "去字符拼接",
+      "cmds": [
+        {
+          "type": "regex",
+          "label": "去除字符串拼接",
+          "match": "/\"(.|\\n)*\\++(.|\\n)*\"/",
+          "minLength": 20
+        }
+      ]
+    },
+    {
+      "code": "format_Json",
+      "explain": "格式化Json串",
+      "cmds": [
+        {
+          "type": "regex",
+          "label": "把Json字符串格式化输出",
+          "match": "/(.|\\n)*(\\{|\\[)+(.|\\n)+:+(.|\\n)+(\\}|\\])+(.|\\n)*/",
+          "minLength": 20
+        }
+      ]
+    },
+    {
+      "code": "bean_toString_json",
+      "explain": "toString转Json并格式化",
+      "cmds": [
+        {
+          "type": "regex",
+          "label": "JavaBean的toString字符串转Json并格式化",
+          "match": "/.*\\(+.*=+.*\\)+.*/",
+          "minLength": 20
+        }
+      ]
+    },
+    {
+      "code": "copy_text",
+      "explain": "复制纯文本",
+      "cmds": [
+        {
+          "type": "regex",
+          "label": "复制纯文本",
+          "match": "/.*/",
+          "minLength": 100
+        }
+      ]
+    }
+  ],
+  "pluginSetting": {
+    "single": true
+  }
+}
