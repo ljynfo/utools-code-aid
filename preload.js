@@ -151,6 +151,21 @@ const removeEsc = function (str) {
     return str
 };
 
+const getLogParam = function (str) {
+    let list = str.split(',')
+    let result = '';
+    for (let i = 0, len = list.length; i < len; i++) {
+        let s = list[i];
+        if (s.includes(':{}')) {
+            s = s.replace(':{}', '')
+            result = result.concat(', ');
+            result = result.concat(s);
+        }
+    }
+
+    return result
+};
+
 const formatJson = function (str) {
     try {
         str = formatJsonStrict(str)
@@ -161,6 +176,13 @@ const formatJson = function (str) {
     return str
 };
 let bookmarksDataCache = [
+    {
+        title: '提取log日志参数',
+        code: 'get_log_param',
+        description: '提取log日志参数',
+        pinyin: 'tiqulogrizhicanshu',
+        icon: '' // 图标(可选)
+    },
     {
         title: '去字符拼接',
         code: 'remove_esc',
@@ -219,6 +241,9 @@ window.exports = {
                 let str = action.payload;
                 try {
                     switch (code) {
+                        case 'get_log_param':
+                            str = getLogParam(str)
+                            break;
                         case 'remove_esc':
                             str = removeEsc(str)
                             break;
@@ -239,77 +264,6 @@ window.exports = {
                     console.log(error)
                     info = info + '，但可能有点问题'
                 }
-                window.utools.copyText(str)
-                window.utools.outPlugin()
-                window.utools.showNotification(info)
-            }
-        }
-    },
-    "remove_esc": {
-        mode: "none",
-        args: {
-            enter: (action) => {
-                window.utools.hideMainWindow()
-                let info = '复制成功';
-                let str = action.payload;
-                try {
-                    str = removeEsc(str)
-                } catch (e) {
-                    console.log(e)
-                    info = info + '，但可能有点问题'
-                }
-                window.utools.copyText(str)
-                window.utools.outPlugin()
-                window.utools.showNotification(info)
-            }
-        }
-    },
-    "format_Json": {
-        mode: "none",
-        args: {
-            enter: (action) => {
-                window.utools.hideMainWindow()
-                let info = '复制成功';
-                let str = action.payload;
-                try {
-                    str = formatJson(str)
-                } catch (e) {
-                    console.log(e)
-                    info = info + '，但可能有点问题'
-                }
-                window.utools.copyText(str)
-                window.utools.outPlugin()
-                window.utools.showNotification(info)
-            }
-        }
-    },
-    "bean_toString_json": {
-        mode: "none",
-        args: {
-            enter: (action) => {
-                window.utools.hideMainWindow()
-                let info = '复制成功';
-                let str = action.payload;
-                try {
-                    str = beanStrToJson(str)
-                    str = formatJson(str)
-                } catch (e) {
-                    console.log(e)
-                    info = info + '，但可能有点问题'
-                }
-                window.utools.copyText(str)
-                window.utools.outPlugin()
-                window.utools.showNotification(info)
-            }
-        }
-    },
-    "copy_text": {
-        mode: "none",
-        args: {
-            enter: (action) => {
-                window.utools.hideMainWindow()
-                let info = '复制成功';
-                let str = action.payload;
                 window.utools.copyText(str)
                 window.utools.outPlugin()
                 window.utools.showNotification(info)
