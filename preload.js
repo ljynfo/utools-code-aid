@@ -160,8 +160,91 @@ const formatJson = function (str) {
     }
     return str
 };
+let bookmarksDataCache = [
+    {
+        title: '去字符拼接',
+        code: 'remove_esc',
+        description: '去除字符串拼接',
+        pinyin: 'quchuzifuchuanlianjie',
+        icon: '' // 图标(可选)
+    },
+    {
+        title: '格式化Json串',
+        code: 'format_Json',
+        description: '把Json字符串格式化输出',
+        pinyin: 'geshihuajsonchuan',
+        icon: '' // 图标(可选)
+    },
+    {
+        title: 'toString转Json并格式化',
+        code: 'bean_toString_json',
+        description: 'JavaBean的toString字符串转Json并格式化',
+        pinyin: 'tostringzhuanjsonbinggeshihua',
+        icon: '' // 图标(可选)
+    },
+    {
+        title: '复制文本',
+        code: 'copy_text',
+        description: '复制纯文本',
+        pinyin: 'fuzhichunwenben',
+        icon: '' // 图标(可选)
+    }
+]
 
 window.exports = {
+    "code_helper": {
+        mode: "list",
+        args: {
+            // 进入插件时调用（可选）
+            enter: (action, callbackSetList) => {
+                // 如果进入插件就要显示列表数据
+                callbackSetList(bookmarksDataCache)
+            },
+            // 子输入框内容变化时被调用 可选 (未设置则无搜索)
+            search: (action, searchWord, callbackSetList) => {
+                if (!searchWord) return callbackSetList(bookmarksDataCache)
+                searchWord = searchWord.toLowerCase()
+                return callbackSetList(bookmarksDataCache.filter(x =>
+                    x.title.includes(searchWord)
+                    || x.code.includes(searchWord)
+                    || x.description.includes(searchWord)
+                    || x.pinyin.includes(searchWord)
+                ))
+            },
+            // 用户选择列表中某个条目时被调用
+            select: (action, itemData) => {
+                window.utools.hideMainWindow()
+                let info = '复制成功';
+                let code = itemData.code;
+                let str = action.payload;
+                try {
+                    switch (code) {
+                        case 'remove_esc':
+                            str = removeEsc(str)
+                            break;
+                        case 'format_Json':
+                            str = formatJson(str)
+                            break;
+                        case 'bean_toString_json':
+                            str = beanStrToJson(str)
+                            str = formatJson(str)
+                            break;
+                        case 'copy_text':
+                            str = str.toString()
+                            break;
+                        default:
+                    }
+
+                } catch (error) {
+                    console.log(error)
+                    info = info + '，但可能有点问题'
+                }
+                window.utools.copyText(str)
+                window.utools.outPlugin()
+                window.utools.showNotification(info)
+            }
+        }
+    },
     "remove_esc": {
         mode: "none",
         args: {
@@ -227,73 +310,6 @@ window.exports = {
                 window.utools.hideMainWindow()
                 let info = '复制成功';
                 let str = action.payload;
-                window.utools.copyText(str)
-                window.utools.outPlugin()
-                window.utools.showNotification(info)
-            }
-        }
-    },
-    "code_helper": {
-        mode: "list",
-        args: {
-            // 进入插件时调用（可选）
-            enter: (action, callbackSetList) => {
-                // 如果进入插件就要显示列表数据
-                callbackSetList([
-                    {
-                        title: '去字符拼接',
-                        code: 'remove_esc',
-                        description: '去除字符串拼接',
-                        icon: '' // 图标(可选)
-                    },
-                    {
-                        title: '格式化Json串',
-                        code: 'format_Json',
-                        description: '把Json字符串格式化输出',
-                        icon: '' // 图标(可选)
-                    },
-                    {
-                        title: 'toString转Json并格式化',
-                        code: 'bean_toString_json',
-                        description: 'JavaBean的toString字符串转Json并格式化',
-                        icon: '' // 图标(可选)
-                    },
-                    {
-                        title: '复制文本',
-                        code: 'copy_text',
-                        description: '复制纯文本',
-                        icon: '' // 图标(可选)
-                    }
-                ])
-            },
-            // 用户选择列表中某个条目时被调用
-            select: (action, itemData) => {
-                window.utools.hideMainWindow()
-                let info = '复制成功';
-                let code = itemData.code;
-                let str = action.payload;
-                try {
-                    switch (code) {
-                        case 'remove_esc':
-                            str = removeEsc(str)
-                            break;
-                        case 'format_Json':
-                            str = formatJson(str)
-                            break;
-                        case 'bean_toString_json':
-                            str = beanStrToJson(str)
-                            str = formatJson(str)
-                            break;
-                        case 'copy_text':
-                            str = str.toString()
-                            break;
-                        default:
-                    }
-
-                } catch (error) {
-                    console.log(error)
-                    info = info + '，但可能有点问题'
-                }
                 window.utools.copyText(str)
                 window.utools.outPlugin()
                 window.utools.showNotification(info)
