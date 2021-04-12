@@ -187,13 +187,20 @@ const taskExtract = function (str) {
     try {
         for (let i = 0, len = list.length; i < len; i++) {
             task = list[i];
-            if (task.includes('【') && (task.includes('h】') || task.includes('H】'))) {
+            let thick = task.includes('【') && (task.includes('h】') || task.includes('H】'))
+            let thin = task.includes('[') && (task.includes('h]') || task.includes('H]'))
+            if (thick || thin) {
                 taskSum++
-                let taskTime = task.substr(task.lastIndexOf('【'), task.lastIndexOf('】'))
-                taskTime = taskTime.replace('h', '')
-                    .replace('H', '')
-                    .replace('【', '')
-                    .replace('】', '')
+                let taskTime
+                if (thick) {
+                    taskTime = task.substr(task.lastIndexOf('【'), task.lastIndexOf('】'))
+                }
+                if (thin) {
+                    taskTime = task.substr(task.lastIndexOf('['), task.lastIndexOf(']'))
+                }
+                taskTime = taskTime.replace('h', '').replace('H', '')
+                    .replace('【', '').replace('】', '')
+                    .replace('[', '').replace(']', '')
                 taskTime = parseFloat(taskTime)
                 if (isNaN(taskTime)) {
                     errorList.push(task.trim())
@@ -226,42 +233,42 @@ let bookmarksDataCache = [
         code: 'get_log_param',
         description: '提取log日志参数',
         pinyin: 'tiqulogrizhicanshu',
-        icon: '' // 图标(可选)
+        icon: 'img/hashiqi1.jpeg' // 图标(可选)
     },
     {
         title: '去字符拼接',
         code: 'remove_esc',
         description: '去除字符串拼接',
         pinyin: 'quchuzifuchuanlianjie',
-        icon: '' // 图标(可选)
+        icon: 'img/hashiqi2.jpeg' // 图标(可选)
     },
     {
         title: '格式化Json串',
         code: 'format_Json',
         description: '把Json字符串格式化输出',
         pinyin: 'geshihuajsonchuan',
-        icon: '' // 图标(可选)
+        icon: 'img/hashiqi3.jpeg' // 图标(可选)
     },
     {
         title: 'toString转Json并格式化',
         code: 'bean_toString_json',
         description: 'JavaBean的toString字符串转Json并格式化',
         pinyin: 'tostringzhuanjsonbinggeshihua',
-        icon: '' // 图标(可选)
+        icon: 'img/hashiqi4.jpeg' // 图标(可选)
     },
     {
         title: '复制文本',
         code: 'copy_text',
         description: '复制纯文本',
         pinyin: 'fuzhichunwenben',
-        icon: '' // 图标(可选)
+        icon: 'img/hashiqi5.jpeg' // 图标(可选)
     },
     {
         title: '拆解任务提取',
         code: 'task_extract',
         description: '拆解任务提取',
         pinyin: 'chaijierenwutiqu',
-        icon: '' // 图标(可选)
+        icon: 'img/hashiqi6.jpeg' // 图标(可选)
     }
 ]
 
