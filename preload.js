@@ -175,6 +175,51 @@ const formatJson = function (str) {
     }
     return str
 };
+
+const taskExtract = function (str) {
+    let list = str.split('\n')
+    let result = ''
+    let task
+    let taskSum = 0
+    let taskNum = 0
+    let taskTimeSum = 0
+    let errorList = [];
+    try {
+        for (let i = 0, len = list.length; i < len; i++) {
+            task = list[i];
+            if (task.includes('【') && (task.includes('h】') || task.includes('H】'))) {
+                taskSum++
+                let taskTime = task.substr(task.lastIndexOf('【'), task.lastIndexOf('】'))
+                taskTime = taskTime.replace('h', '')
+                    .replace('H', '')
+                    .replace('【', '')
+                    .replace('】', '')
+                taskTime = parseFloat(taskTime)
+                if (isNaN(taskTime)) {
+                    errorList.push(task.trim())
+                } else {
+                    taskTimeSum = taskTimeSum + taskTime
+                    task = task.trim()
+                    taskNum++
+                    result = result.concat('\n');
+                    result = result.concat(task);
+                }
+            }
+        }
+        result = ('总共' + taskSum + '个任务, 解析成功' + taskNum + '个、失败' + (taskSum - taskNum) + '个, 成功任务合计' + taskTimeSum + '小时\n').concat(result)
+    } catch (e) {
+        result = '解析任务失败, 任务信息: '.concat(task)
+    }
+    let errorSum = errorList.length
+    if (errorSum > 0) {
+        result = result.concat("\n\n\n解析失败任务:")
+    }
+    for (let i = 0; i < errorSum; i++) {
+        let errorTask = errorList[i];
+        result = result.concat("\n".concat(errorTask))
+    }
+    return result
+};
 let bookmarksDataCache = [
     {
         title: '提取log日志参数',
@@ -209,6 +254,13 @@ let bookmarksDataCache = [
         code: 'copy_text',
         description: '复制纯文本',
         pinyin: 'fuzhichunwenben',
+        icon: '' // 图标(可选)
+    },
+    {
+        title: '拆解任务提取',
+        code: 'task_extract',
+        description: '拆解任务提取',
+        pinyin: 'chaijierenwutiqu',
         icon: '' // 图标(可选)
     }
 ]
@@ -256,6 +308,9 @@ window.exports = {
                             break;
                         case 'copy_text':
                             str = str.toString()
+                            break;
+                        case 'task_extract':
+                            str = taskExtract(str)
                             break;
                         default:
                     }

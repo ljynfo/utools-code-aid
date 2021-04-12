@@ -16,10 +16,15 @@
       "code": "code_helper",
       "explain": "编程小助手",
       "cmds": [
+        "code",
+        "helper",
+        "编程",
+        "助手",
         {
           "type": "regex",
           "label": "编程小助手",
-          "match": "/(.*)/"
+          "match": "/(.*)/",
+          "minLength": 10
         }
       ]
     }
