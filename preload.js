@@ -159,6 +159,9 @@ const getLogParam = function (str) {
         if (s.includes(':{}')) {
             s = s.replace(':{}', '')
             result = result.concat(', ');
+            if (s.lastIndexOf('.size') > 0) {
+                s = s.concat('()')
+            }
             result = result.concat(s);
         }
     }
@@ -227,53 +230,109 @@ const taskExtract = function (str) {
     }
     return result
 };
+
+const columnCalculation = function (str) {
+    let list = str.split('\n')
+    let max
+    let min
+    let sum = 0
+    let avg
+    let count = 0
+    let number
+    let errorList = [];
+    let result = ''
+    try {
+        for (let i = 0, len = list.length; i < len; i++) {
+            number = parseFloat(list[i].trim())
+            if (isNaN(number)) {
+                errorList.push(list[i])
+            } else {
+                count++
+                sum = sum + number
+                if (max == null) {
+                    max = number
+                } else {
+                    max = max > number ? max : number
+                }
+                if (min == null) {
+                    min = number
+                } else {
+                    min = min < number ? min : number
+                }
+            }
+        }
+        avg = sum / count
+        result = '总共' + list.length + '行, 解析成功' + count + '行、失败' + (list.length - count) + '行\n' +
+            'max: ' + max + ', min: ' + min + ', avg: ' + avg + ', sum: ' + sum + '\n'
+    } catch (e) {
+        result = '解析失败, 信息: '.concat(number)
+    }
+    let errorSum = errorList.length
+    if (errorSum > 0) {
+        result = result.concat("\n\n\n解析失败:")
+    }
+    for (let i = 0; i < errorSum; i++) {
+        let errorMsg = errorList[i];
+        result = result.concat("\n".concat(errorMsg))
+    }
+    return result
+};
+
+
 let bookmarksDataCache = [
     {
         title: '提取log日志参数',
-        code: 'get_log_param',
+        code: 'getLogParam',
         description: '提取log日志参数',
         pinyin: 'tiqulogrizhicanshu',
-        icon: 'img/hashiqi1.jpeg' // 图标(可选)
+        icon: 'img/getLogParam.svg' // 图标(可选)
     },
     {
         title: '去字符拼接',
-        code: 'remove_esc',
+        code: 'removeEsc',
         description: '去除字符串拼接',
         pinyin: 'quchuzifuchuanlianjie',
-        icon: 'img/hashiqi2.jpeg' // 图标(可选)
+        icon: 'img/removeEsc.svg' // 图标(可选)
     },
     {
         title: '格式化Json串',
-        code: 'format_Json',
+        code: 'formatJson',
         description: '把Json字符串格式化输出',
         pinyin: 'geshihuajsonchuan',
-        icon: 'img/hashiqi3.jpeg' // 图标(可选)
+        icon: 'img/formatJson.svg' // 图标(可选)
     },
     {
         title: 'toString转Json并格式化',
-        code: 'bean_toString_json',
+        code: 'beanToStringJson',
         description: 'JavaBean的toString字符串转Json并格式化',
         pinyin: 'tostringzhuanjsonbinggeshihua',
-        icon: 'img/hashiqi4.jpeg' // 图标(可选)
+        icon: 'img/beanToStringJson.svg' // 图标(可选)
     },
     {
         title: '复制文本',
-        code: 'copy_text',
+        code: 'copyText',
         description: '复制纯文本',
         pinyin: 'fuzhichunwenben',
-        icon: 'img/hashiqi5.jpeg' // 图标(可选)
+        icon: 'img/copyText.svg' // 图标(可选)
+    },
+    {
+        title: '计算一列数字',
+        code: 'columnCalculation',
+        description: '计算一列数字大小平均值',
+        pinyin: 'jisuanyilieshuzidaxiaopingjunzhipjz',
+        icon: 'img/columnCalculation.svg' // 图标(可选)
     },
     {
         title: '拆解任务提取',
-        code: 'task_extract',
+        code: 'taskExtract',
         description: '拆解任务提取',
         pinyin: 'chaijierenwutiqu',
-        icon: 'img/hashiqi6.jpeg' // 图标(可选)
+        icon: 'img/taskExtract.svg' // 图标(可选)
     }
 ]
 
 window.exports = {
-    "code_helper": {
+    "codeHelper": {
         mode: "list",
         args: {
             // 进入插件时调用（可选）
@@ -300,23 +359,26 @@ window.exports = {
                 let str = action.payload;
                 try {
                     switch (code) {
-                        case 'get_log_param':
+                        case 'getLogParam':
                             str = getLogParam(str)
                             break;
-                        case 'remove_esc':
+                        case 'removeEsc':
                             str = removeEsc(str)
                             break;
-                        case 'format_Json':
+                        case 'formatJson':
                             str = formatJson(str)
                             break;
-                        case 'bean_toString_json':
+                        case 'beanToStringJson':
                             str = beanStrToJson(str)
                             str = formatJson(str)
                             break;
-                        case 'copy_text':
+                        case 'copyText':
                             str = str.toString()
                             break;
-                        case 'task_extract':
+                        case 'columnCalculation':
+                            str = columnCalculation(str)
+                            break;
+                        case 'taskExtract':
                             str = taskExtract(str)
                             break;
                         default:
