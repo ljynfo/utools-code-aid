@@ -152,20 +152,34 @@ const removeEsc = function (str) {
 };
 
 const getLogParam = function (str) {
-    let list = str.split(',')
-    let result = '';
+    str = str.replace(/：\{\}/g, '\{\}')
+    str = str.replace(/:\{\}/g, '\{\}')
+    str = str.replace(/\{\}/g, ':\{\}')
+    let list = str.split(':\{\}')
+    let result = ''
+    let params = ''
     for (let i = 0, len = list.length; i < len; i++) {
         let s = list[i];
-        if (s.includes(':{}')) {
-            s = s.replace(':{}', '')
-            result = result.concat(', ');
-            if (s.lastIndexOf('.size') > 0) {
-                s = s.concat('()')
-            }
-            result = result.concat(s);
-        }
-    }
+        if (i < len - 1) {
+            s = s.concat(':{}')
+            let param = s.replace(':{}', '')
 
+            let index1 = param.lastIndexOf(',')
+            let index2 = param.lastIndexOf(' ')
+            index1 = index1 > index2 ? index1 : index2
+            index1 = 0 > index1 ? 0 : index1
+            param = param.substr(index1, param.length)
+
+            if (param.lastIndexOf('.size') > 0) {
+                param = param.concat('()')
+            }
+            params = params.concat(',', param);
+        }
+        result = result.concat(s);
+    }
+    result = result.substr(0, result.lastIndexOf('"') + 1)
+    result = result.concat(params, ');')
+    result = result.replace(/\{\}，/g, '\{\},')
     return result
 };
 
@@ -281,10 +295,10 @@ const columnCalculation = function (str) {
 
 let bookmarksDataCache = [
     {
-        title: '提取log日志参数',
+        title: '格式化log日志参数',
         code: 'getLogParam',
-        description: '提取log日志参数',
-        pinyin: 'tiqulogrizhicanshu',
+        description: '格式化Java中log占位符自动填充参数',
+        pinyin: 'geshihualogrizhicanshu',
         icon: 'img/getLogParam.svg' // 图标(可选)
     },
     {
