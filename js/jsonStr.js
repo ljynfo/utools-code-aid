@@ -35,7 +35,7 @@ const formatJsonLoose = function (json) {
 }
 
 const formatJsonStrict = function (json, options) {
-    let reg = null,
+    let reg,
         formatted = '',
         pad = 0,
         PADDING = '  ';
