@@ -7,11 +7,22 @@ const taskExtract = function (str) {
     let taskTimeSum = 0
     let errorList = [];
     try {
+        let lastStr
         for (let i = 0, len = list.length; i < len; i++) {
             task = list[i];
             let thick = task.includes('【') && (task.includes('h】') || task.includes('H】'))
             let thin = task.includes('[') && (task.includes('h]') || task.includes('H]'))
             if (thick || thin) {
+
+                let taskTabCount = task.split('\t').length - 1
+                for (let j = i; j > 0; j--) {
+                    lastStr = list[j - 1]
+                    let lastStrTabCount = lastStr.split('\t').length - 1
+                    if (lastStrTabCount <= taskTabCount - 1) {
+                        lastStr = lastStr.replace(/[\r\n]/g, '')
+                        break
+                    }
+                }
                 taskSum++
                 let taskTime
                 if (thick) {
@@ -31,7 +42,7 @@ const taskExtract = function (str) {
                     task = task.trim()
                     taskNum++
                     result = result.concat('\n');
-                    result = result.concat(task);
+                    result = result.concat((lastStr + '>' + task).trim());
                 }
             }
         }

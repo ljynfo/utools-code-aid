@@ -3,7 +3,7 @@
   "description": "解决自己在写代码时遇到的一些小问题。",
   "logo": "img/paopao.jpg",
   "preload": "preload.js",
-  "version": "0.5.0",
+  "version": "0.5.3",
   "author": "小金鱼",
   "homepage": "https://github.com/ljynfo/utools-code-helper",
   "platform": [
