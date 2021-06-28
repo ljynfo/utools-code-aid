@@ -2,6 +2,9 @@ let jsonStr = require('./jsonStr')
 
 const beanStrToJson = function (str) {
     str = str.toString()
+
+    str = compatibleSuper(str)
+
     str = str.replace(/\(/g, '{')
     str = str.replace(/\)/g, '}')
 
@@ -82,6 +85,27 @@ function buildQuotationForValue(i, len, strList, value) {
         value = value.concat(',')
     }
     return value
+}
+
+function compatibleSuper(str) {
+    if (typeof str !== 'string' || str.length === 0) {
+        return str
+    }
+    while (true) {
+        let superIndex = str.indexOf('super=')
+        if (superIndex < 0) {
+            break
+        }
+        let str1 = str.substring(0, superIndex)
+        let str2 = str.substring(superIndex)
+        let superStr = str2.substring(0, str2.indexOf(','))
+        str2 = str2.substring(str2.indexOf(',') + 1)
+        if (superStr.indexOf('super=') !== superStr.lastIndexOf('super=')) {
+            str2 = str2.replace(')', '')
+        }
+        str = str1.concat(str2)
+    }
+    return str
 }
 
 module.exports = {beanStrToJson}
