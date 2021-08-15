@@ -47,10 +47,10 @@ let bookmarksDataCache = [
         icon: 'img/columnCalculation.svg' // 图标(可选)
     },
     {
-        title: '拆解任务提取',
+        title: '任务提取',
         code: 'taskExtract',
-        description: '拆解任务提取',
-        pinyin: 'chaijierenwutiqu',
+        description: 'XMind任务提取',
+        pinyin: 'XMindrenwutiqu',
         icon: 'img/taskExtract.svg' // 图标(可选)
     }
 ]

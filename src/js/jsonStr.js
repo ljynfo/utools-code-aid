@@ -34,6 +34,15 @@ const formatJsonLoose = function (json) {
     return formatted
 }
 
+const isJosn = function (str) {
+    try {
+        JSON.parse(str)
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
 const formatJsonStrict = function (json, options) {
     let reg,
         formatted = '',
@@ -107,5 +116,6 @@ const formatJson = function (str) {
 module.exports = {
     formatJson,
     formatJsonLoose,
-    formatJsonStrict
+    formatJsonStrict,
+    isJosn
 }
