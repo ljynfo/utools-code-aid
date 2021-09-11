@@ -108,37 +108,42 @@ function taskExtractWithString(str) {
             task = list[i];
             let thick = task.includes('【') && (task.includes('h】') || task.includes('H】'))
             let thin = task.includes('[') && (task.includes('h]') || task.includes('H]'))
-            if (thick || thin) {
+            let suspected = (task.trim().endsWith('h') || task.trim().endsWith('H')) && !isNaN(parseFloat((task.trim().substr(task.trim().length - 2, task.trim().length - 1))))
+            if (thick || thin || suspected) {
 
                 let taskTabCount = task.split('\t').length - 1
                 for (let j = i; j > 0; j--) {
                     lastStr = list[j - 1]
                     let lastStrTabCount = lastStr.split('\t').length - 1
                     if (lastStrTabCount <= taskTabCount - 1) {
-                        lastStr = lastStr.replace(/[\r\n]/g, '')
+                        lastStr = lastStr.replace(/[\r\n\t]/g, '')
                         break
                     }
                 }
                 taskSum++
-                let taskTime
-                if (thick) {
-                    taskTime = task.substr(task.lastIndexOf('【'), task.lastIndexOf('】'))
-                }
-                if (thin) {
-                    taskTime = task.substr(task.lastIndexOf('['), task.lastIndexOf(']'))
-                }
-                taskTime = taskTime.replace('h', '').replace('H', '')
-                    .replace('【', '').replace('】', '')
-                    .replace('[', '').replace(']', '')
-                taskTime = parseFloat(taskTime)
-                if (isNaN(taskTime)) {
-                    errorList.push(task.trim())
+                if (suspected) {
+                    errorList.push(lastStr + '>' + task.trim())
                 } else {
-                    taskTimeSum = taskTimeSum + taskTime
-                    task = task.trim()
-                    taskNum++
-                    result = result.concat('\n');
-                    result = result.concat((lastStr + '>' + task).trim());
+                    let taskTime
+                    if (thick) {
+                        taskTime = task.substr(task.lastIndexOf('【'), task.lastIndexOf('】'))
+                    }
+                    if (thin) {
+                        taskTime = task.substr(task.lastIndexOf('['), task.lastIndexOf(']'))
+                    }
+                    taskTime = taskTime.replace('h', '').replace('H', '')
+                        .replace('【', '').replace('】', '')
+                        .replace('[', '').replace(']', '')
+                    taskTime = parseFloat(taskTime)
+                    if (isNaN(taskTime)) {
+                        errorList.push(lastStr + '>' + task.trim())
+                    } else {
+                        taskTimeSum = taskTimeSum + taskTime
+                        task = task.trim()
+                        taskNum++
+                        result = result.concat('\n');
+                        result = result.concat((lastStr + '>' + task).trim());
+                    }
                 }
             }
         }
