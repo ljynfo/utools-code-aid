@@ -47,6 +47,13 @@ let bookmarksDataCache = [
         icon: 'img/columnCalculation.svg' // 图标(可选)
     },
     {
+        title: '生成有序数字',
+        code: 'generatingNumbers',
+        description: '从0开始生成有序的数字',
+        pinyin: 'shengchengyouxushuzi',
+        icon: 'img/generatingNumbers.svg' // 图标(可选)
+    },
+    {
         title: '任务提取',
         code: 'taskExtract',
         description: 'XMind任务提取',
@@ -102,6 +109,9 @@ window.exports = {
                             break;
                         case 'columnCalculation':
                             str = taskUtil.columnCalculation(str)
+                            break;
+                        case 'generatingNumbers':
+                            str = taskUtil.generatingNumbers(str)
                             break;
                         case 'taskExtract':
                             str = taskUtil.taskExtract(str)

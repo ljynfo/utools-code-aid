@@ -209,7 +209,23 @@ const columnCalculation = function (str) {
     return result
 }
 
+const generatingNumbers = function (str) {
+    let max = parseFloat(str.trim())
+    if (isNaN(max)) {
+        max = 20
+    }
+    let result = ''
+    for (let i = 0; i <= max; i++) {
+        result = result.concat(i.toString())
+        if (i < max) {
+            result = result.concat("\n")
+        }
+    }
+    return result
+}
+
 module.exports = {
     taskExtract,
-    columnCalculation
+    columnCalculation,
+    generatingNumbers
 }
