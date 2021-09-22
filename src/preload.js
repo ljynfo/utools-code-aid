@@ -2,6 +2,7 @@ let log = require('./js/javaLog')
 let javaStr = require('./js/javaStr')
 let jsonStr = require('./js/jsonStr')
 let taskUtil = require('./js/task')
+let column = require('./js/column')
 
 let bookmarksDataCache = [
     {
@@ -108,10 +109,10 @@ window.exports = {
                             str = str.toString()
                             break;
                         case 'columnCalculation':
-                            str = taskUtil.columnCalculation(str)
+                            str = column.columnCalculation(str)
                             break;
                         case 'generatingNumbers':
-                            str = taskUtil.generatingNumbers(str)
+                            str = column.generatingNumbers(str)
                             break;
                         case 'taskExtract':
                             str = taskUtil.taskExtract(str)
