@@ -26,9 +26,9 @@
         "计算一列数字",
         "拆解任务提取",
         {
-          "type": "regex",
+          "type": "over",
           "label": "编程小助手",
-          "match": "/.*?/",
+          "match": "/.*/",
           "minNum": 1
         }
       ]

@@ -1,7 +1,7 @@
 # 编程小助手
 
 - 项目已开源，如有bug或建议，欢迎提Issues或Pull requests
-- 代码地址：[https://github.com/ljynfo/utools-code-helper](https://github.com/ljynfo/utools-code-helper)
+- 代码地址：[https://github.com/ljynfo/utools-code-aid](https://github.com/ljynfo/utools-code-aid)
 
 > 解决自己在写代码时遇到的一些小问题。
 
