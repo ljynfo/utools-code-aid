@@ -3,6 +3,7 @@ let javaStr = require('./js/javaStr')
 let jsonStr = require('./js/jsonStr')
 let taskUtil = require('./js/task')
 let column = require('./js/column')
+let dateTime = require('./js/dateTime')
 
 let bookmarksDataCache = [
     {
@@ -48,19 +49,27 @@ let bookmarksDataCache = [
         icon: 'img/columnCalculation.svg' // 图标(可选)
     },
     {
+        title: '生成时间戳',
+        code: 'generatingTimeStr',
+        description: 'yyyyMMddHHmmss',
+        pinyin: 'sjcrqshengchengshijianchuo',
+        icon: 'img/generatingTimeStr.svg' // 图标(可选)
+    },
+    {
         title: '生成有序数字',
         code: 'generatingNumbers',
         description: '从0开始生成有序的数字',
         pinyin: 'shengchengyouxushuzi',
         icon: 'img/generatingNumbers.svg' // 图标(可选)
-    },
-    {
-        title: '任务提取',
-        code: 'taskExtract',
-        description: 'XMind任务提取',
-        pinyin: 'XMindrenwutiqu',
-        icon: 'img/taskExtract.svg' // 图标(可选)
     }
+    // ,
+    // {
+    //     title: '任务提取',
+    //     code: 'taskExtract',
+    //     description: 'XMind任务提取',
+    //     pinyin: 'XMindrenwutiqu',
+    //     icon: 'img/taskExtract.svg' // 图标(可选)
+    // }
 ]
 
 // af2e3a76
@@ -113,6 +122,9 @@ window.exports = {
                             break;
                         case 'generatingNumbers':
                             str = column.generatingNumbers(str)
+                            break;
+                        case 'generatingTimeStr':
+                            str = dateTime.generatingTimeStr()
                             break;
                         case 'taskExtract':
                             str = taskUtil.taskExtract(str)
