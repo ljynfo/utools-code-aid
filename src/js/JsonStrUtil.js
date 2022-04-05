@@ -103,7 +103,7 @@ const formatJsonStrict = function (json, options) {
     return formatted;
 }
 
-const formatJson = function (str) {
+const callFormatJson = function (str) {
     try {
         str = formatJsonStrict(str)
     } catch (e) {
@@ -113,9 +113,16 @@ const formatJson = function (str) {
     return str
 }
 
+const matchFormatJson = function (str){
+    return str.includes(':')
+        && str.includes('{')
+        && str.includes("}")
+}
+
 module.exports = {
-    formatJson,
+    callFormatJson,
     formatJsonLoose,
     formatJsonStrict,
-    isJosn
+    isJosn,
+    matchFormatJson
 }

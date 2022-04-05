@@ -1,4 +1,4 @@
-const getLogParam = function (str) {
+const callFormatLogParam = function (str) {
     str = str.replace(/：\{\}/g, '\{\}')
     str = str.replace(/:\{\}/g, '\{\}')
     str = str.replace(/\{\}/g, ':\{\}')
@@ -34,4 +34,11 @@ const getLogParam = function (str) {
     return result
 }
 
-module.exports = {getLogParam}
+const matchFormatLogParam = function (str) {
+    return str.includes('log.') && str.includes('{}')
+}
+
+module.exports = {
+    callFormatLogParam,
+    matchFormatLogParam
+}

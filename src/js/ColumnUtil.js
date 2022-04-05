@@ -1,5 +1,4 @@
-
-const columnCalculation = function (str) {
+const callColumnCalculation = function (str) {
     let list = str.split('\n')
     let max
     let min
@@ -46,7 +45,7 @@ const columnCalculation = function (str) {
     return result
 }
 
-const generatingNumbers = function (str) {
+const callGeneratingNumbers = function (str) {
     let max = parseFloat(str.trim())
     if (isNaN(max)) {
         max = 20
@@ -60,8 +59,17 @@ const generatingNumbers = function (str) {
     }
     return result
 }
+const matchColumnCalculation = function (str) {
+    let number = parseFloat(str.split('\n')[0].trim())
+    return !isNaN(number);
+}
+const matchGeneratingNumbers = function (str) {
+    return !isNaN(str);
+}
 
 module.exports = {
-    columnCalculation,
-    generatingNumbers
+    callColumnCalculation,
+    callGeneratingNumbers,
+    matchGeneratingNumbers,
+    matchColumnCalculation
 }

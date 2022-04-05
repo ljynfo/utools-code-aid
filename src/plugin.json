@@ -15,22 +15,10 @@
       "code": "codeHelper",
       "explain": "编程小助手",
       "cmds": [
-        "code helper",
-        "Java IDEA",
-        "代码 编程 助手",
-        "格式化log日志参数",
-        "toString转Json并格式化",
-        "格式化Json串",
-        "去字符拼接",
-        "复制文本",
-        "计算一列数字",
-        "生成时间戳",
-        "生成有序数字",
         {
           "type": "over",
           "label": "编程小助手",
-          "match": "/.*/",
-          "minNum": 1
+          "minLength": 1
         }
       ]
     }

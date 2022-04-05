@@ -14,10 +14,17 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 }
 
-const generatingTimeStr = function () {
+const callGeneratingTimeStr = function () {
     return new Date().Format("yyyyMMddHHmmss")
+}
+const matchGeneratingTimeStr = function (str) {
+    return str.includes('sj')
+        || str.includes('SJ')
+        || str.includes('rq')
+        || str.includes('RQ')
 }
 
 module.exports = {
-    generatingTimeStr
+    callGeneratingTimeStr,
+    matchGeneratingTimeStr
 }

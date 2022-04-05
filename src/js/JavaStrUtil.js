@@ -1,6 +1,6 @@
-let jsonStr = require('./jsonStr')
+let jsonStr = require('./JsonStrUtil')
 
-const beanStrToJson = function (str) {
+const callBeanStrToJson = function (str) {
     str = str.toString()
 
     str = compatibleSuper(str)
@@ -108,4 +108,13 @@ function compatibleSuper(str) {
     return str
 }
 
-module.exports = {beanStrToJson}
+const matchBeanToStringJson = function (str) {
+    return str.includes('=')
+        && str.includes('(')
+        && str.includes(")")
+}
+
+module.exports = {
+    callBeanStrToJson,
+    matchBeanToStringJson
+}
