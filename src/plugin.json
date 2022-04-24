@@ -18,7 +18,8 @@
         {
           "type": "over",
           "label": "编程小助手",
-          "minLength": 1
+          "minLength": 1,
+          "maxLength": 999999
         }
       ]
     }

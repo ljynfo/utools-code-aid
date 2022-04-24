@@ -172,7 +172,9 @@ window.exports = {
                     console.log(error)
                     info = info + '，但可能有点问题'
                 }
+                window.utools.hideMainWindow()
                 window.utools.copyText(str)
+                paste()
                 window.utools.outPlugin()
                 window.utools.showNotification(info)
             }
