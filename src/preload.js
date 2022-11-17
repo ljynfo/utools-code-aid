@@ -4,6 +4,7 @@ let JavaStrUtil = require('./js/JavaStrUtil')
 let JsonStrUtil = require('./js/JsonStrUtil')
 let ColumnUtil = require('./js/ColumnUtil')
 let DateTimeUtil = require('./js/DateTimeUtil')
+let JwtUtil = require('./js/JwtUtil.js')
 
 let formatLogParam = {
     title: '格式化log日志参数',
@@ -11,6 +12,27 @@ let formatLogParam = {
     description: '格式化Java中log占位符自动填充参数',
     pinyin: 'geshihualogrizhicanshu',
     icon: 'img/getLogParam.svg'
+}
+let jwtParseToJson = {
+    title: '将jwt解析成json格式',
+    code: 'jwtParseToJson',
+    description: '将jwt解析成json格式',
+    pinyin: 'jwttojson',
+    icon: 'img/jwtParseToJson.svg'
+}
+let jwtParseToHeaderHump = {
+    title: '将jwt解析成驼峰的k:v',
+    code: 'jwtParseToHeaderHump',
+    description: '将jwt解析成驼峰的k:v',
+    pinyin: 'jwttohumpkv',
+    icon: 'img/jwtParseToHeaderHump.svg'
+}
+let jwtParseToHeaderUnderline = {
+    title: '将jwt解析成下划线的k:v',
+    code: 'jwtParseToHeaderUnderline',
+    description: '将jwt解析成下划线的k:v',
+    pinyin: 'jwttounderlinekv',
+    icon: 'img/jwtParseToHeaderUnderline.svg'
 }
 let beanToStringJson = {
     title: 'toString转Json并格式化',
@@ -64,6 +86,9 @@ let generatingNumbers = {
 
 let allSetListDataCache = [
     formatLogParam,
+    jwtParseToHeaderUnderline,
+    jwtParseToHeaderHump,
+    jwtParseToJson,
     beanToStringJson,
     formatJson,
     removeEsc,
@@ -95,6 +120,11 @@ window.exports = {
 
                 if (JavaLogUtil.matchFormatLogParam(str)) {
                     list.push(formatLogParam)
+                }
+                if (JwtUtil.matchJwt(str)) {
+                    list.push(jwtParseToHeaderUnderline)
+                    list.push(jwtParseToHeaderHump)
+                    list.push(jwtParseToJson)
                 }
                 if (JavaStrUtil.matchBeanToStringJson(str)) {
                     list.push(beanToStringJson)
@@ -142,6 +172,15 @@ window.exports = {
                     switch (code) {
                         case 'formatLogParam':
                             str = JavaLogUtil.callFormatLogParam(str)
+                            break;
+                        case 'jwtParseToJson':
+                            str = JwtUtil.callJwtParseToJson(str)
+                            break;
+                        case 'jwtParseToHeaderHump':
+                            str = JwtUtil.callJwtParseToHeaderHump(str)
+                            break;
+                        case 'jwtParseToHeaderUnderline':
+                            str = JwtUtil.callJwtParseToHeaderUnderline(str)
                             break;
                         case 'removeEsc':
                             str = CommonStrUtil.callRemoveEsc(str)

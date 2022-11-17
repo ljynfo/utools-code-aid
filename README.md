@@ -27,6 +27,18 @@ log.error("需要打印一下日志, param1:{}, param2:{}, param3:{}", param1, p
 
 ---
 
+## 解析JWT信息
+
+### 使用场景
+
+JWT由3部分组成：标头(Header)、有效载荷(Payload)和签名(Signature)，可以使用插件将JWT加密串进行解密。
+
+### 使用方法
+
+复制文本，呼出utools的超级面板，选择 `编程小助手` 点击 `解析JWT信息` 即可。
+
+---
+
 ## Java类默认的toString字符串转Json格式
 
 ### 使用场景
