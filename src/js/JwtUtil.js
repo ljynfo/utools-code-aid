@@ -81,8 +81,16 @@ function parseJwtStrToJson(jwtStr) {
     if (strings.length !== 3) {
         return '不是jwt格式'
     }
-    let atob = window.atob(strings[1].replace(/-/g, "+").replace(/_/g, "/"));
+    let atob = b64_to_utf8(strings[1].replace(/-/g, "+").replace(/_/g, "/"));
     return atob
+}
+
+function utf8_to_b64(str) {
+    return window.btoa(unescape(encodeURIComponent(str)));
+}
+
+function b64_to_utf8(str) {
+    return decodeURIComponent(escape(window.atob(str)));
 }
 
 module.exports = {
