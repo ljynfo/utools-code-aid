@@ -91,18 +91,16 @@ function compatibleSuper(str) {
     if (typeof str !== 'string' || str.length === 0) {
         return str
     }
+    let superStr = 'super='
     while (true) {
         let superIndex = str.indexOf('super=')
         if (superIndex < 0) {
             break
         }
         let str1 = str.substring(0, superIndex)
-        let str2 = str.substring(superIndex)
-        let superStr = str2.substring(0, str2.indexOf(','))
-        str2 = str2.substring(str2.indexOf(',') + 1)
-        if (superStr.indexOf('super=') !== superStr.lastIndexOf('super=')) {
-            str2 = str2.replace(')', '')
-        }
+        let str2 = str.substring(superIndex + superStr.length)
+        str2 = str2.substring(str2.indexOf('(') + 1 )
+        str2 = str2.replace(')', '')
         str = str1.concat(str2)
     }
     return str

@@ -103,6 +103,10 @@ const formatJsonStrict = function (json, options) {
     return formatted;
 }
 
+const formatJsonWithJsonApi = function (json) {
+    return JSON.stringify(json, null, '\t')
+}
+
 const callFormatJson = function (str) {
     try {
         str = formatJsonStrict(str)
