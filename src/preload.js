@@ -5,6 +5,7 @@ let JsonStrUtil = require('./js/JsonStrUtil')
 let ColumnUtil = require('./js/ColumnUtil')
 let DateTimeUtil = require('./js/DateTimeUtil')
 let JwtUtil = require('./js/JwtUtil.js')
+let SQLUtil = require('./js/SQLUtil.js')
 
 let formatLogParam = {
     title: '格式化log日志参数',
@@ -19,20 +20,6 @@ let jwtParseToJson = {
     description: '将jwt解析成json格式',
     pinyin: 'jwttojson',
     icon: 'img/jwtParseToJson.svg'
-}
-let jwtParseToHeaderHump = {
-    title: '将jwt解析成驼峰的k:v',
-    code: 'jwtParseToHeaderHump',
-    description: '将jwt解析成驼峰的k:v',
-    pinyin: 'jwttohumpkv',
-    icon: 'img/jwtParseToHeaderHump.svg'
-}
-let jwtParseToHeaderUnderline = {
-    title: '将jwt解析成下划线的k:v',
-    code: 'jwtParseToHeaderUnderline',
-    description: '将jwt解析成下划线的k:v',
-    pinyin: 'jwttounderlinekv',
-    icon: 'img/jwtParseToHeaderUnderline.svg'
 }
 let beanToStringJson = {
     title: 'toString转Json并格式化',
@@ -69,33 +56,47 @@ let columnCalculation = {
     pinyin: 'jisuanyilieshuzidaxiaopingjunzhipjz',
     icon: 'img/columnCalculation.svg'
 }
-let generatingTimeStr = {
+let generateTimeStampStr = {
     title: '生成时间戳',
-    code: 'generatingTimeStr',
+    code: 'generatingTimeStampStr',
     description: 'yyyyMMddHHmmss',
     pinyin: 'sjcrqshengchengshijianchuo',
-    icon: 'img/generatingTimeStr.svg'
+    icon: 'img/generateTimeStr.svg'
 }
-let generatingNumbers = {
+let generateTimeStr = {
+    title: '生成时间',
+    code: 'generateTimeStr',
+    description: 'yyyy-MM-dd HH:mm:ss',
+    pinyin: 'sjcrqshengchengshijian',
+    icon: 'img/generateTimeStr.svg'
+}
+let generateNumbers = {
     title: '生成有序数字',
-    code: 'generatingNumbers',
+    code: 'generateNumbers',
     description: '从0开始生成有序的数字',
     pinyin: 'shengchengyouxushuzi',
-    icon: 'img/generatingNumbers.svg'
+    icon: 'img/generateNumbers.svg'
+}
+let generateSql = {
+    title: '生成SQL',
+    code: 'generateSql',
+    description: '从日志中提取出SQL语句',
+    pinyin: 'shengchengsql',
+    icon: 'img/SQL.svg'
 }
 
 let allSetListDataCache = [
     formatLogParam,
-    jwtParseToHeaderUnderline,
-    jwtParseToHeaderHump,
     jwtParseToJson,
     beanToStringJson,
     formatJson,
     removeEsc,
     copyText,
     columnCalculation,
-    generatingTimeStr,
-    generatingNumbers
+    generateTimeStampStr,
+    generateTimeStr,
+    generateNumbers,
+    generateSql
 ]
 
 function paste() {
@@ -122,8 +123,6 @@ window.exports = {
                     list.push(formatLogParam)
                 }
                 if (JwtUtil.matchJwt(str)) {
-                    list.push(jwtParseToHeaderUnderline)
-                    list.push(jwtParseToHeaderHump)
                     list.push(jwtParseToJson)
                 }
                 if (JavaStrUtil.matchBeanToStringJson(str)) {
@@ -138,14 +137,18 @@ window.exports = {
                 if (ColumnUtil.matchColumnCalculation(str)) {
                     list.push(columnCalculation)
                 }
-                if (DateTimeUtil.matchGeneratingTimeStr(str)) {
-                    list.push(generatingTimeStr)
+                if (DateTimeUtil.matchGenerateTimeStr(str)) {
+                    list.push(generateTimeStr)
+                    list.push(generateTimeStampStr)
                 }
-                if (ColumnUtil.matchGeneratingNumbers(str)) {
-                    list.push(generatingNumbers)
+                if (ColumnUtil.matchGenerateNumbers(str)) {
+                    list.push(generateNumbers)
                 }
                 if (CommonStrUtil.matchCopyText(str)) {
                     list.push(copyText)
+                }
+                if (SQLUtil.matchGenerateSql(str)) {
+                    list.push(generateSql)
                 }
 
                 // 如果进入插件就要显示列表数据
@@ -176,12 +179,6 @@ window.exports = {
                         case 'jwtParseToJson':
                             str = JwtUtil.callJwtParseToJson(str)
                             break;
-                        case 'jwtParseToHeaderHump':
-                            str = JwtUtil.callJwtParseToHeaderHump(str)
-                            break;
-                        case 'jwtParseToHeaderUnderline':
-                            str = JwtUtil.callJwtParseToHeaderUnderline(str)
-                            break;
                         case 'removeEsc':
                             str = CommonStrUtil.callRemoveEsc(str)
                             break;
@@ -198,11 +195,17 @@ window.exports = {
                         case 'columnCalculation':
                             str = ColumnUtil.callColumnCalculation(str)
                             break;
-                        case 'generatingNumbers':
-                            str = ColumnUtil.callGeneratingNumbers(str)
+                        case 'generateNumbers':
+                            str = ColumnUtil.callGenerateNumbers(str)
                             break;
-                        case 'generatingTimeStr':
-                            str = DateTimeUtil.callGeneratingTimeStr()
+                        case 'generateTimeStr':
+                            str = DateTimeUtil.callGenerateTimeStr("yyyy-MM-dd HH:mm:ss")
+                            break;
+                        case 'generateTimeStampStr':
+                            str = DateTimeUtil.callGenerateTimeStr("yyyyMMddHHmmss")
+                            break;
+                        case 'generateSql':
+                            str = SQLUtil.callGenerateSql(str)
                             break;
                         default:
                     }

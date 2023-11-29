@@ -45,7 +45,7 @@ const callColumnCalculation = function (str) {
     return result
 }
 
-const callGeneratingNumbers = function (str) {
+const callGenerateNumbers = function (str) {
     let max = parseFloat(str.trim())
     if (isNaN(max)) {
         max = 20
@@ -63,13 +63,13 @@ const matchColumnCalculation = function (str) {
     let number = parseFloat(str.split('\n')[0].trim())
     return !isNaN(number);
 }
-const matchGeneratingNumbers = function (str) {
+const matchGenerateNumbers = function (str) {
     return !isNaN(str);
 }
 
 module.exports = {
     callColumnCalculation,
-    callGeneratingNumbers,
-    matchGeneratingNumbers,
+    callGenerateNumbers: callGenerateNumbers,
+    matchGenerateNumbers: matchGenerateNumbers,
     matchColumnCalculation
 }
